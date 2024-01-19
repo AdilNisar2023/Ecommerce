@@ -3,116 +3,112 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from '../styles/styles';
 import { Link } from 'react-router-dom';
 import { SignupPage } from '../Routes';
+import { RxAvatar } from "react-icons/rx";
+
 
 const Signup=()=> {
-    const [name,setName]= useState("");
-  const [email,setEmail]= useState("");
-  const [password,setpassword]=useState("");
-  const [visible,setVisible]=useState(false);
+  const [formData, setFormData] = useState({
+    name:"",
+    email: "",
+    password: "",
+  });
+  const [visible, setVisible] = useState(false);
+  const [avatar,setAvatar]=useState(null)
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleSubmit=()=>{
+    console.log("some")
+  }
+  const handleFileInputChange=(e)=>{
+const files=e.target.files[0]
+setAvatar(files)
+  }
+  console.log(formData);
   return (
-    <div className='min-h-screen bg-gray-50 flex
-     flex-col justify-center py-12 sm:px-6 lg:px-8'>
-    <div className='sm:mx-auto sm-w-full sm:max-w-md'>
-        <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
-            Register as a New User
+    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm-w-full sm:max-w-md">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+         Register 
         </h2>
-</div>
-
-
-     <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'></div>
-     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      <form className='space-y-6'>
-
-
-      <div>
-          <label  htmlFor="Name"
-          className='block text-sm font-medium text-gray-700'>
-           Full Name
-          </label>
-          <div className='mt-1'>
-          <input className='appearance-none block w-full px-3 py-2 border-gray-300
-          rounded-md shadow-sm' 
-          type="name"
-          name="name"
-          required
-          placeholder='name'
-          autoComplete='name'
-          value={email}
-          onChange={(e)=>setName(e.target.value)}
-          />
-          
-        </div>
-        </div>
-
-
-
-        <div>
-          <label  htmlFor="email"
-          className='block text-sm font-medium text-gray-700'>
-            Email Address
-          </label>
-          <div className='mt-1'>
-          <input className='appearance-none block w-full px-3 py-2 border-gray-300
-          rounded-md shadow-sm' 
-          type="email"
-          name="eamil"
-          required
-          placeholder='Email'
-          autoComplete='email'
-          value={email}
-          onChange={(e)=>setEmail(e.target.value)}
-          />
-          
-        </div>
-        </div>
-        <div>
-          <label  htmlFor="password"
-          className='block text-sm font-medium text-gray-700'>
-            Password
-          </label>
-          <div className='mt-1 relative'> 
-          <input className='appearance-none block w-full px-3 py-2 border-gray-300
-          rounded-md shadow-sm' 
-          type={visible ? "text":"password"}
-          name="password"
-          required
-          placeholder='password'
-          autoComplete='current-password'
-          value={password}
-          onChange={(e)=>setpassword(e.target.value)}
-          />
-
-          { visible ? (
-            <AiOutlineEye className='absolute right-2 top-2
-             cursor-pointer' size={25}
-             onClick={()=>setVisible(false)}
+      </div>
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-8 px-4 shadow sm:rounded">
+          <form action="" className="space-y-6">
+          <label className="block text-sm font-medium text-gray-700">
+              Name
+            </label>
+            <input
+              className="appearance-none block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm"
+              type="name"
+              name="name"
+              placeholder="Name"
+              autoComplete="name"
+              value={formData.name}
+              onChange={handleChange}
             />
-          ):(
-            <AiOutlineEyeInvisible className='absolute right-2 top-2
-             cursor-pointer' size={25}
-             onClick={()=>setVisible(true)}
-             />
-          )
-          }
-          
-          </div>
+            <label className="block text-sm font-medium text-gray-700">
+              Email Address
+            </label>
+            <input
+              className="appearance-none block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm"
+              type="email"
+              name="email"
+              placeholder="Email"
+              autoComplete="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <div className="mt-1 relative">
+              <label className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                className="appearance-none block w-full px-3 py-2 border-gray-300 rounded-md shadow-sm"
+                type="password"
+                name="password"
+                placeholder="Password"
+                autoComplete="password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              {visible ? (
+                <AiOutlineEye
+                  size={20}
+                  className="absolute right-2 top-7 cursor-pointer"
+                  onClick={() => setVisible(!visible)}
+                />
+              ) : (
+                <AiOutlineEyeInvisible
+                  size={20}
+                  className="absolute right-2 top-7 cursor-pointer"
+                  onClick={() => setVisible(!visible)}
+                />
+              )}
+            </div>
+            <div>
+<label htmlFor='' className='block text-sm font-medium text-gray-700'></label>
+<div className='mt-2 flex items-center'>
+<span className='inline-block h-8 w-8 rounded-full overflow-hidden'>
+  {avatar?<><img src={URL.createObjectURL(avatar)} alt="avatar" className='h-full w-full object-cover rounded-full'/></>:
+  <RxAvatar className='h-8 w-8'/>
+  }
+</span>
+<label className='ml-5 flex items-center justify-center px-4 py-2 border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50'><span>Upload a File</span><input type="file" accept='jpg,jpeg,png' name="avatar" id="file-input" className='sr-only' onChange={handleFileInputChange}/></label>
+</div>
+</div>
+            <button className="group text-white relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-shite bg-blue-600 hover:bg-blue-700">Register Your Account</button>
+            <div className={`${styles.normalFlex} w-full`}>
+              <h4>Already Have An Account</h4>
+              <Link to="/login" className="text-blue-600 pl-2">SignUp</Link>
+              </div>
+          </form>
         </div>
-        
-        <button type='submit' className='group relative
-        w-full h-[40px] flex justify-center py-2 px-4
-        border border-transparent text-sm font-medium
-        rounded-md text-white bg-blue-600
-        hover:bg-blue-700'>
-          Submit
-        </button>
-        <div className={`${styles.normalFlex}w-full`}>
-          <h4>Already have an Account?</h4>
-          <Link to="/login" className="text-blue-600 pl-2">
-          Login
-          </Link>
-        </div>
-      </form>
-     </div>
+      </div>
     </div>
     
   )
